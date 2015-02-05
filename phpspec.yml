@@ -1,0 +1,5 @@
+suites:
+   laravelpackage_suite:
+      namespace: Bmartel\LaravelPackage
+      psr4_prefix: Bmartel\LaravelPackage
+      src_path:  src

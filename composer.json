@@ -1,0 +1,29 @@
+{
+    "name": "bmartel/workshop",
+    "description": "A package generator for web artisans.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "bmartel",
+            "email": "brandonmartel@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bmartel\\LaravelPackage\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/console": "~2.6",
+        "symfony/filesystem": "~2.6",
+        "mustache/mustache": "~2.7",
+        "illuminate/support": "~5.0"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.0"
+    },
+    "bin": [
+        "workshop"
+    ],
+    "minimum-stability": "stable"
+}

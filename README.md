@@ -2,6 +2,8 @@
 
 Workshop is a commandline tool for quickly generating Laravel based composer packages.
 
+[![Build Status](https://travis-ci.org/bmartel/workshop.svg?branch=master)](https://travis-ci.org/bmartel/workshop)[![Latest Stable Version](https://poser.pugx.org/bmartel/workshop/v/stable.svg)](https://packagist.org/packages/bmartel/workshop) [![Total Downloads](https://poser.pugx.org/bmartel/workshop/downloads.svg)](https://packagist.org/packages/bmartel/workshop) [![Latest Unstable Version](https://poser.pugx.org/bmartel/workshop/v/unstable.svg)](https://packagist.org/packages/bmartel/workshop) [![License](https://poser.pugx.org/bmartel/workshop/license.svg)](https://packagist.org/packages/bmartel/workshop)
+
 ## Usage
 
 ### Install

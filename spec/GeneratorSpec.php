@@ -62,6 +62,7 @@ class GeneratorSpec extends ObjectBehavior {
 
 		$this->getTemplateForFileName('ServiceProvider.php')->shouldReturn('ServiceProvider.mustache');
 		$this->getTemplateForFileName('.gitkeep')->shouldReturn('default.mustache');
+		$this->getTemplateForFileName('.gitignore')->shouldReturn('gitignore.mustache');
 	}
 
 	function it_can_provide_a_default_template_when_a_match_is_not_found_for_the_file() {
@@ -72,5 +73,17 @@ class GeneratorSpec extends ObjectBehavior {
 	function it_can_perform_placeholder_data_replacements_in_filenames() {
 
 		$this->replacePlaceholderInline('{{package}}.php', ['package' => 'acme'])->shouldReturn('acme.php');
+	}
+
+	function it_can_initialize_package_as_a_git_repository() {
+
+		$this->generateFileFrom('filestubs/test.txt', 'default', []);
+
+		$this->newGitRepository();
+
+		if(!file_exists(__DIR__. '/package-test/.git')) {
+
+			throw new FailureException('Unable to create the git repository.');
+		}
 	}
 }

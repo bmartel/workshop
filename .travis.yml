@@ -9,4 +9,8 @@ before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --dev
 
+install:
+  - git config --global user.email "workshoptest@email.com"
+  - git config --global user.name "Workshop Test"
+
 script: vendor/bin/phpspec run -v

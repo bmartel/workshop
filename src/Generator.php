@@ -3,6 +3,7 @@
 namespace Bmartel\LaravelPackage;
 
 use Bmartel\LaravelPackage\Builders\Package;
+use GitWrapper\GitWrapper;
 use Mustache_Engine;
 use Mustache_Loader_FilesystemLoader;
 use Symfony\Component\Filesystem\Filesystem;
@@ -38,6 +39,7 @@ class Generator {
 
 		$this->packageBuilder = new Package();
 		$this->filesystem = new Filesystem();
+		$this->git = new GitWrapper();
 		$this->setTemplatePath($templatePath);
 	}
 
@@ -120,6 +122,14 @@ class Generator {
 		return false;
 	}
 
+	public function newGitRepository() {
+
+		$this->git
+			->init($this->outputPath)
+			->add('--all')
+			->commit('Initial Commit');
+	}
+
 	/**
 	 * Output the rendered template to a file.
 	 *
@@ -133,7 +143,7 @@ class Generator {
 		list($file, $path) = $this->parseFileFromPath($filePath);
 
 		// Get the absolute path to the file, relative to where the user is in the filesystem
-		$pathToFile = rtrim(ltrim($path, '/'), '/');
+		$pathToFile = trim($path, '/');
 
 		$this->createDirectory($pathToFile);
 
@@ -167,7 +177,7 @@ class Generator {
 	 */
 	private function createFile($filePath, $content) {
 
-		$normalizedFilePath = $this->outputPath . '/' . rtrim(ltrim($filePath, '/'), '/');
+		$normalizedFilePath = $this->outputPath . '/' . trim($filePath, '/');
 
 		if ($this->filesystem->exists($normalizedFilePath)) {
 			return false;
@@ -202,6 +212,8 @@ class Generator {
 			$this->generateFiles($path, $files, $data);
 		});
 
+		// Initialize and add package to a new git repository
+		$this->newGitRepository();
 	}
 
 	/**
@@ -251,8 +263,15 @@ class Generator {
 	 */
 	public function getTemplateForFileName($file) {
 
-		$fileExtension = explode('.', $file);
-		$requestedTemplate = str_replace(array_pop($fileExtension), 'mustache', $file);
+		list($fileName, $fileExtension) = explode('.', $file);
+
+		// If the file is a hidden file .gitignore, .gitkeep, use the extension as the name.
+		if(empty($fileName)) {
+
+			$fileName = $fileExtension;
+		}
+
+		$requestedTemplate = $fileName. '.mustache';
 
 		// Found a match so lets load it up.
 		if ($this->filesystem->exists($this->templatePath . '/' . $requestedTemplate)) {

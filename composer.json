@@ -17,7 +17,8 @@
         "symfony/console": "~2.6",
         "symfony/filesystem": "~2.6",
         "mustache/mustache": "~2.7",
-        "illuminate/support": "~5.0"
+        "illuminate/support": "~5.0",
+        "cpliakas/git-wrapper": "~1.0"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.0"

@@ -52,6 +52,7 @@ return [
 	 '/' => [
 		 'routes.php',
 		 'composer.json',
+		 '.gitignore',
 		 'README.md',
 		 'LICENSE.txt'
 	 ]

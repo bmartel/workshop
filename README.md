@@ -16,6 +16,14 @@ Workshop is a commandline tool for quickly generating Laravel based composer pac
 
 ```cd package``` and you will see a skeleton structure for building a package.
 
+#### Laravel packages
+
+You can make use of this package and develop it within a local laravel application you may have. To pull this package
+into your local development app, add the vendor/package you provided as argument to the workshop build command to the app's composer.json:
+
+    require: {
+    }
+
 And thats really all there is to it. Spend more time building something great, and less time
 naming, renaming and copying files.
 

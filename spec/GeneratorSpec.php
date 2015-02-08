@@ -60,19 +60,30 @@ class GeneratorSpec extends ObjectBehavior {
 
 	function it_attempts_to_find_a_matching_template_to_generate_a_file_from() {
 
-		$this->getTemplateForFileName('ServiceProvider.php')->shouldReturn('ServiceProvider.mustache');
-		$this->getTemplateForFileName('.gitkeep')->shouldReturn('default.mustache');
-		$this->getTemplateForFileName('.gitignore')->shouldReturn('gitignore.mustache');
+		$this->getTemplateForFileName('ServiceProvider.php')->shouldReturn(['ServiceProvider.php', 'ServiceProvider.mustache']);
+		$this->getTemplateForFileName('.gitkeep')->shouldReturn(['.gitkeep', 'default.mustache']);
+		$this->getTemplateForFileName('.gitignore')->shouldReturn(['.gitignore', 'gitignore.mustache']);
+
+	}
+
+	function it_allows_a_template_to_be_specified_for_file_generation() {
+
+		$this->getTemplateForFileName('config:package.php')->shouldReturn([ 'package.php', 'config.mustache']);
 	}
 
 	function it_can_provide_a_default_template_when_a_match_is_not_found_for_the_file() {
 
-		$this->getTemplateForFileName('MyAwesomeClass.php')->shouldReturn('default.mustache');
+		$this->getTemplateForFileName('MyAwesomeClass.php')->shouldReturn(['MyAwesomeClass.php', 'default.mustache']);
 	}
 
 	function it_can_perform_placeholder_data_replacements_in_filenames() {
 
 		$this->replacePlaceholderInline('{{package}}.php', ['package' => 'acme'])->shouldReturn('acme.php');
+	}
+
+	function it_can_perform_placeholder_data_replacements_in_filenames_for_files_specifying_a_template() {
+
+		$this->replacePlaceholderInline('config:{{package}}.php', ['package' => 'acme'])->shouldReturn('config:acme.php');
 	}
 
 	function it_can_initialize_package_as_a_git_repository() {

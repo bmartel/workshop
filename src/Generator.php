@@ -245,7 +245,7 @@ class Generator {
 			$file = $this->replacePlaceholderInline($file, $data);
 
 			// Map incoming filename to a template
-			$template = $this->getTemplateForFileName($file);
+			list($file, $template) = $this->getTemplateForFileName($file);
 
 			// Relative path to file, from current working directory.
 			$filePath = ltrim($path . '/' . $file, '/');
@@ -263,7 +263,10 @@ class Generator {
 	 */
 	public function getTemplateForFileName($file) {
 
-		list($fileName, $fileExtension) = explode('.', $file);
+		// Determine if there are any provided hints as to which template to use. template:file.ext
+		list($template, $file) = $this->determineFileFromTemplate(explode(':', $file));
+
+		list($fileName, $fileExtension) = explode('.', $template);
 
 		// If the file is a hidden file .gitignore, .gitkeep, use the extension as the name.
 		if(empty($fileName)) {
@@ -271,15 +274,16 @@ class Generator {
 			$fileName = $fileExtension;
 		}
 
-		$requestedTemplate = $fileName. '.mustache';
+		$requestedTemplate = $fileName . '.mustache';
 
 		// Found a match so lets load it up.
 		if ($this->filesystem->exists($this->templatePath . '/' . $requestedTemplate)) {
-			return $requestedTemplate;
+
+			return [$file, $requestedTemplate];
 		}
 
 		// Otherwise return a generic default (this must exist in your templates directory at minimum)
-		return 'default.mustache'; // just a blank file
+		return [$file, 'default.mustache']; // just a blank file
 	}
 
 	/**
@@ -337,5 +341,25 @@ class Generator {
 
 		// Set the directory for the package to be created in
 		$this->setOutputPath($packageDirectory);
+	}
+
+	/**
+	 * @param $fileTemplate
+	 * @return array
+	 */
+	private function determineFileFromTemplate($fileTemplate) {
+
+		if (count($fileTemplate) > 1) {
+
+			// add a tmp extension to appease the template logic to follow.
+			$template = $fileTemplate[0] . '.tmp';
+			$file = $fileTemplate[1];
+
+		} else {
+
+			$file = $template = $fileTemplate[0];
+		}
+
+		return [$template, $file];
 	}
 }

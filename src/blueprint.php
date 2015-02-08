@@ -39,7 +39,7 @@ return [
 	 * You can also provide your own data for replacements, just don't forget to pass them in.
 	 */
 
-	'config' => '{{package}}.php',
+	'config' => 'config:{{package}}.php',
 
 	'migrations' => '.gitkeep',
 

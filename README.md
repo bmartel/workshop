@@ -16,6 +16,25 @@ Workshop is a commandline tool for quickly generating Laravel based composer pac
 
 ```cd package``` and you will see a skeleton structure for building a package.
 
+#### Laravel packages
+
+You can make use of this package and develop it within a local laravel application you may have. To pull this package
+into your local development app, add the vendor/package you provided as argument to the workshop build command to the app's ```composer.json``` (lets assume the package created was acme/sprockets):
+
+    require: {
+        "acme/sprockets": "dev-master"
+    },
+    "repositories": [
+		{
+			"type": "vcs",
+			"url": "/path/to/where/acme/sprockets/was/created/locally"
+		}
+	],
+
+Run ```composer update acme/sprockets``` from your laravel app's root directory, and you are setup for easy local package development. 
+
+The development workflow simply becomes: make a change in the package on your local filesystem, go to your local development laravel app you are including the package and run ```composer update vendor/package```. Rinse and repeat until you are ready to push it up to github or bitbucket and add the package to packagist, upon which you can drop the repostories entry and just include the composer require entry for the package.
+
 And thats really all there is to it. Spend more time building something great, and less time
 naming, renaming and copying files.
 

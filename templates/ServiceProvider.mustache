@@ -23,6 +23,7 @@ class ServiceProvider extends LaravelServiceProvider {
         // $this->handleMigrations();
         // $this->handleViews();
         // $this->handleTranslations();
+        // $this->handleAssets();
         // $this->handleRoutes();
     }
 
@@ -63,12 +64,17 @@ class ServiceProvider extends LaravelServiceProvider {
     private function handleViews() {
 
         $this->loadViewsFrom( __DIR__.'/../views', '{{package}}');
-        $this->publishes([__DIR__.'/../views' => base_path('resources/views/vendor/{{package}}')]);
+        $this->publishes([__DIR__.'/../views' => base_path('resources/views/vendor/{{package}}')], 'views');
     }
 
     private function handleMigrations() {
 
-        $this->publishes([__DIR__ . '/../migrations' => base_path('database/migrations')]);
+        $this->publishes([__DIR__ . '/../migrations' => database_path('/migrations')], 'migrations');
+    }
+
+    private function handleAssets() {
+
+        $this->publishes([__DIR__.'/../assets' => public_path('vendor/{{package}}'),], 'public');
     }
 
     private function handleRoutes() {

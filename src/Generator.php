@@ -1,8 +1,8 @@
 <?php
 
-namespace Bmartel\LaravelPackage;
+namespace Bmartel\Workshop;
 
-use Bmartel\LaravelPackage\Builders\Package;
+use Bmartel\Workshop\Builders\Package;
 use GitWrapper\GitWrapper;
 use Mustache_Engine;
 use Mustache_Loader_FilesystemLoader;

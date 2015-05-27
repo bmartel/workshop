@@ -12,6 +12,6 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 $application = new Symfony\Component\Console\Application('Laravel Workshop', '0.0.1');
 
-$application->add(new \Bmartel\LaravelPackage\Console\GenerateCommand);
+$application->add(new \Bmartel\Workshop\Console\GenerateCommand);
 
 $application->run();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bmartel\LaravelPackage\Builders;
+namespace Bmartel\Workshop\Builders;
 
 class InputData {
 

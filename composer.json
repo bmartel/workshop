@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Bmartel\\LaravelPackage\\": "src/"
+            "Bmartel\\Workshop\\": "src/"
         }
     },
     "require": {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Bmartel\LaravelPackage\Console;
+namespace Bmartel\Workshop\Console;
 
-use Bmartel\LaravelPackage\Builders\InputData;
-use Bmartel\LaravelPackage\Generator;
+use Bmartel\Workshop\Builders\InputData;
+use Bmartel\Workshop\Generator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

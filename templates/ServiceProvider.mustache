@@ -59,7 +59,7 @@ class ServiceProvider extends LaravelServiceProvider {
 
         $this->loadTranslationsFrom( __DIR__.'/../lang', '{{package}}');
         $this->publishes([__DIR__.'/../lang' => base_path('resources/lang/vendor/{{package}}')]);
-    }
+    }\
 
     private function handleViews() {
 

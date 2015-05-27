@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Bmartel\LaravelPackage;
+namespace spec\Bmartel\Workshop;
 
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\ObjectBehavior;
@@ -23,7 +23,7 @@ class GeneratorSpec extends ObjectBehavior {
 
 	function it_is_initializable() {
 
-		$this->shouldHaveType('Bmartel\LaravelPackage\Generator');
+		$this->shouldHaveType('Bmartel\Workshop\Generator');
 	}
 
 	function it_can_create_a_config_directory() {

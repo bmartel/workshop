@@ -1,9 +1,9 @@
 <?php
 
-namespace Bmartel\LaravelPackage\Builders;
+namespace Bmartel\Workshop\Builders;
 
 
-use Bmartel\LaravelPackage\Exceptions\InvalidBlueprintException;
+use Bmartel\Workshop\Exceptions\InvalidBlueprintException;
 use Closure;
 use Symfony\Component\Filesystem\Filesystem;
 

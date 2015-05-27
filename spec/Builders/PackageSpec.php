@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Bmartel\LaravelPackage\Builders;
+namespace spec\Bmartel\Workshop\Builders;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -14,13 +14,13 @@ class PackageSpec extends ObjectBehavior {
 
 	function it_is_initializable() {
 
-		$this->shouldHaveType('Bmartel\LaravelPackage\Builders\Package');
+		$this->shouldHaveType('Bmartel\Workshop\Builders\Package');
 	}
 
 	function it_throws_an_exception_for_invalid_blueprint_files() {
 
 		$this
-			->shouldThrow('Bmartel\LaravelPackage\Exceptions\InvalidBlueprintException')
+			->shouldThrow('Bmartel\Workshop\Exceptions\InvalidBlueprintException')
 			->duringLoadBlueprint(__DIR__ . '/blueprint.php');
 	}
 

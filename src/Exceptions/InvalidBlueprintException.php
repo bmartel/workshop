@@ -1,5 +1,5 @@
 <?php
-namespace Bmartel\LaravelPackage\Exceptions;
+namespace Bmartel\Workshop\Exceptions;
 
 
 class InvalidBlueprintException extends \Exception {

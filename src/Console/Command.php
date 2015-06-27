@@ -1,6 +1,6 @@
 <?php namespace Bmartel\Workshop\Console;
 
-use Bmartel\Workshop\Builders\File\Base;
+use Bmartel\Workshop\Builders\Base;
 use Symfony\Component\Console\Command\Command as SymphonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

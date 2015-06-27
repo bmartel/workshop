@@ -10,35 +10,38 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateCommand extends Command {
+class GenerateCommand extends Command
+{
 
-	private $packageGenerator;
+    private $packageGenerator;
 
-	public function __construct($name = null) {
+    public function __construct($name = null)
+    {
 
-		parent::__construct($name);
+        parent::__construct($name);
 
-		$this->packageGenerator = new Generator(__DIR__ . '/../../templates');
-	}
+        $this->packageGenerator = new Generator(__DIR__ . '/../../templates');
+    }
 
-	protected function configure() {
+    protected function configure()
+    {
 
-		$this
-			->setName('build')
-			->setDescription('Generate a Laravel package skeleton.')
-			->addArgument(
-				'package',
-				InputArgument::REQUIRED,
-				'Ex. vendor/package. What vendor name should this package be published under? What is the name of this package? (This is typically your name, or the name of the company the package is written for)'
-			)
-			->addOption(
-				'data',
-				null,
-				InputOption::VALUE_OPTIONAL,
-				'Template and file replacement data'
-			)
+        $this
+            ->setName('build')
+            ->setDescription('Generate a Laravel package skeleton.')
+            ->addArgument(
+                'package',
+                InputArgument::REQUIRED,
+                'Ex. vendor/package. What vendor name should this package be published under? What is the name of this package? (This is typically your name, or the name of the company the package is written for)'
+            )
+            ->addOption(
+                'data',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Template and file replacement data'
+            )
 
-			// TODO: Implement options below
+            // TODO: Implement options below
 //			->addOption(
 //				'blueprint',
 //				null,
@@ -69,32 +72,32 @@ class GenerateCommand extends Command {
 //				InputOption::VALUE_OPTIONAL,
 //				'Generate all files from the blueprint except those excluded'
 //			)
-		;
-	}
+        ;
+    }
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
 
-		list($vendor, $package) = explode('/', $input->getArgument('package'));
+        list($vendor, $package) = explode('/', $input->getArgument('package'));
 
-		// If either the vendor or package is missing, error
-		if(!$vendor || !$package) {
-			return $output->writeln('<error>Must provide vendor/package.</error>');
-		}
+        // If either the vendor or package is missing, error
+        if (!$vendor || !$package) {
+            return $output->writeln('<error>Must provide vendor/package.</error>');
+        }
 
-		// Check if some data was provided and map it accordingly
-		$data = $input->getOption('data') ?: [];
+        // Check if some data was provided and map it accordingly
+        $data = $input->getOption('data') ?: [];
 
-		if($data) {
-			$data = (new InputData)->parse($data);
-		}
+        if ($data) {
+            $data = (new InputData)->parse($data);
+        }
 
-		// Create the package
-		$this->packageGenerator->createPackage($vendor, $package, $data);
+        // Create the package
+        $this->packageGenerator->createPackage($vendor, $package, $data);
 
-		return $output->writeln('<info>Package generated successfully!</info>');
+        return $output->writeln('<info>Package generated successfully!</info>');
 
-	}
-
+    }
 
 
 }

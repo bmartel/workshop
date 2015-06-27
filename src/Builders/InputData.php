@@ -2,29 +2,31 @@
 
 namespace Bmartel\Workshop\Builders;
 
-class InputData {
+class InputData
+{
 
-	/**
-	 * Formats a string into a data array
-	 *
-	 * @param $data
-	 * @return array
-	 */
-	public function parse($data) {
+    /**
+     * Formats a string into a data array
+     *
+     * @param $data
+     * @return array
+     */
+    public function parse($data)
+    {
 
-		$results = [];
+        $results = [];
 
-		// format "key1:value1,key2:value2..."
-		foreach (explode(',', $data) as $set) {
+        // format "key1:value1,key2:value2..."
+        foreach (explode(',', $data) as $set) {
 
-			if (stristr($set, ':')) {
+            if (stristr($set, ':')) {
 
-				$arrData = explode(':', $set);
+                $arrData = explode(':', $set);
 
-				$results[$arrData[0]] = $arrData[1];
-			}
-		}
+                $results[$arrData[0]] = $arrData[1];
+            }
+        }
 
-		return $results;
-	}
+        return $results;
+    }
 }

@@ -12,7 +12,8 @@ class InputDataSpec extends ObjectBehavior
         $this->shouldHaveType('Bmartel\Workshop\Builders\InputData');
     }
 
-    function it_can_parse_data_from_a_string_and_map_to_an_array() {
+    function it_can_parse_data_from_a_string_and_map_to_an_array()
+    {
 
         $this->parse('')->shouldReturn([]);
 

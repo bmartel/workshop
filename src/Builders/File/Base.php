@@ -1,6 +1,7 @@
 <?php namespace Bmartel\Workshop\Builders\File;
 
 
+use Illuminate\Support\Str;
 use Symfony\Component\Filesystem\Filesystem;
 
 abstract class Base
@@ -32,7 +33,7 @@ abstract class Base
      */
     public function isNotPackageRoot()
     {
-        return !$this->filesystem->exists('./composer.json');
+        return !$this->filesystem->exists('composer.json');
     }
 
     /**

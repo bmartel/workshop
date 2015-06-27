@@ -66,15 +66,16 @@ class GenerateMigrationCommand extends Command
         }
 
         if($this->generator->isNotPackageRoot()) {
-            $this->line("<error>Cannot generate file. Generator commands must be run from the root of a composer package.</error>");
+            $output->writeln("<error>Cannot generate file. Generator commands must be run from the root of a composer package.</error>");
             return;
         }
 
         // Now we are ready to write the migration out to disk. Once we've written
         // the migration out, we will dump-autoload for the entire framework to
         // make sure that the migrations are registered by the class loaders.
-        $this->writeMigration($name, $table, $create);
+        $file = $this->writeMigration($name, $table, $create);
 
+        $output->writeln("<info>Created Migration:</info> $file");
     }
 
     /**
@@ -89,9 +90,7 @@ class GenerateMigrationCommand extends Command
     {
         $path = $this->getMigrationPath();
 
-        $file = pathinfo($this->generator->create($name, $path, $table, $create), PATHINFO_FILENAME);
-
-        $this->line("<info>Created Migration:</info> $file");
+        return pathinfo($this->generator->create($name, $path, $table, $create), PATHINFO_FILENAME);
     }
 
     /**

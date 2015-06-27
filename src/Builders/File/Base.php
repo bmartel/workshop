@@ -7,11 +7,6 @@ abstract class Base
 {
 
     /**
-     * @var string
-     */
-    protected $templatePath;
-
-    /**
      * @var Filesystem
      */
     protected $filesystem;
@@ -23,10 +18,28 @@ abstract class Base
     }
 
     /**
+     * Get the path to the template.
+     *
+     * @return string
+     */
+    public function getTemplatePath()
+    {
+        return __DIR__ . '/../../../templates/builder';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotPackageRoot()
+    {
+        return !$this->filesystem->exists('./composer.json');
+    }
+
+    /**
      * Get the full path name to the file.
      *
-     * @param  string  $name
-     * @param  string  $path
+     * @param  string $name
+     * @param  string $path
      * @return string
      */
     abstract protected function getPath($name, $path);
@@ -34,29 +47,12 @@ abstract class Base
     /**
      * Get the class name of a file name.
      *
-     * @param  string  $name
+     * @param  string $name
      * @return string
      */
     protected function getClassName($name)
     {
         return Str::studly($name);
-    }
-
-    /**
-     * Get the path to the template.
-     *
-     * @return string
-     */
-    public function getTemplatePath()
-    {
-        return __DIR__.'/../../../templates/builder';
-    }
-
-    /**
-     * @return bool
-     */
-    public function isNotPackageRoot(){
-        return !$this->filesystem->exists('./composer.json');
     }
 
     protected function makeDirectory($path)

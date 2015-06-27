@@ -8,10 +8,10 @@ class Migration extends Base
     /**
      * Create a new migration at the given path.
      *
-     * @param  string  $name
-     * @param  string  $path
-     * @param  string  $table
-     * @param  bool    $create
+     * @param  string $name
+     * @param  string $path
+     * @param  string $table
+     * @param  bool $create
      * @return string
      */
     public function create($name, $path, $table = null, $create = false)
@@ -31,6 +31,18 @@ class Migration extends Base
     }
 
     /**
+     * Get the full path name to the file.
+     *
+     * @param  string $name
+     * @param  string $path
+     * @return string
+     */
+    protected function getPath($name, $path)
+    {
+        return $path . '/' . $this->getDatePrefix() . '_' . $name . '.php';
+    }
+
+    /**
      * Get the date prefix for the migration.
      *
      * @return string
@@ -43,14 +55,14 @@ class Migration extends Base
     /**
      * Get the migration template file.
      *
-     * @param  string  $table
-     * @param  bool    $create
+     * @param  string $table
+     * @param  bool $create
      * @return string
      */
     protected function getTemplate($table, $create)
     {
         if (is_null($table)) {
-            return file_get_contents($this->getTemplatePath().'/blank.stub');
+            return file_get_contents($this->getTemplatePath() . '/blank.stub');
         }
 
         // We also have stubs for creating new tables and modifying existing tables
@@ -59,16 +71,21 @@ class Migration extends Base
         else {
             $template = $create ? 'create.stub' : 'update.stub';
 
-            return file_get_contents($this->getTemplatePath()."/{$template}");
+            return file_get_contents($this->getTemplatePath() . "/{$template}");
         }
+    }
+
+    public function getTemplatePath()
+    {
+        return parent::getTemplatePath() . '/migration';
     }
 
     /**
      * Populate the place-holders in the migration stub.
      *
-     * @param  string  $name
-     * @param  string  $template
-     * @param  string  $table
+     * @param  string $name
+     * @param  string $template
+     * @param  string $table
      * @return string
      */
     protected function populateTemplate($name, $template, $table)
@@ -84,23 +101,6 @@ class Migration extends Base
         }
 
         return $template;
-    }
-
-    /**
-     * Get the full path name to the file.
-     *
-     * @param  string  $name
-     * @param  string  $path
-     * @return string
-     */
-    protected function getPath($name, $path)
-    {
-        return $path.'/'.$this->getDatePrefix().'_'.$name.'.php';
-    }
-
-    public function getTemplatePath()
-    {
-        return parent::getTemplatePath() . '/migration';
     }
 
 }

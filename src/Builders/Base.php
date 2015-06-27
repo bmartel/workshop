@@ -25,7 +25,7 @@ abstract class Base
      */
     public function getTemplatePath()
     {
-        return __DIR__ . '/../../../templates/builder';
+        return __DIR__ . '/../../templates';
     }
 
     /**

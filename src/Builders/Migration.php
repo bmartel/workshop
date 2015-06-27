@@ -78,7 +78,7 @@ class Migration extends Base
 
     public function getTemplatePath()
     {
-        return parent::getTemplatePath() . '/migration';
+        return parent::getTemplatePath() . '/builder/migration';
     }
 
     /**

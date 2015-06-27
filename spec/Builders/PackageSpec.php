@@ -33,13 +33,13 @@ class PackageSpec extends ObjectBehavior
     function it_can_create_a_config_directory()
     {
 
-        $this->createDirectory('config')->shouldReturn(true);
+        $this->makeDirectory('config')->shouldReturn(true);
     }
 
     function it_can_create_directories_recursively()
     {
 
-        $this->createDirectory('src/Some/Package/Namespace')->shouldReturn(true);
+        $this->makeDirectory('src/Some/Package/Namespace')->shouldReturn(true);
     }
 
     function it_can_generate_a_file_from_a_template()

@@ -1,6 +1,7 @@
 <?php
 
-namespace Bmartel\Workshop\Builders\File;
+namespace Bmartel\Workshop\Builders;
+
 
 class Migration extends Base
 {

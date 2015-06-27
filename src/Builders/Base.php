@@ -1,4 +1,4 @@
-<?php namespace Bmartel\Workshop\Builders\File;
+<?php namespace Bmartel\Workshop\Builders;
 
 
 use Illuminate\Support\Str;

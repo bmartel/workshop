@@ -2,9 +2,8 @@
 
 namespace Bmartel\Workshop\Console;
 
-use Bmartel\Workshop\Builders\InputData;
-use Bmartel\Workshop\Generator;
-use Symfony\Component\Console\Command\Command;
+use Bmartel\Workshop\Builders\Package;
+use Bmartel\Workshop\Support\InputData;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,16 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends Command
 {
-
-    private $packageGenerator;
-
-    public function __construct($name = null)
-    {
-
-        parent::__construct($name);
-
-        $this->packageGenerator = new Generator(__DIR__ . '/../../templates');
-    }
 
     protected function configure()
     {
@@ -40,41 +29,14 @@ class GenerateCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Template and file replacement data'
             )
-
-            // TODO: Implement options below
-//			->addOption(
-//				'blueprint',
-//				null,
-//				InputOption::VALUE_OPTIONAL,
-//				'Path to blueprint file to use to generate a package from'
-//			)
-//			->addOption(
-//				'templates',
-//				null,
-//				InputOption::VALUE_OPTIONAL,
-//				'Path to the templates that the generator should use'
-//			)
-//			->addOption(
-//				'path',
-//				null,
-//				InputOption::VALUE_OPTIONAL,
-//				'The path the generator should output the package'
-//			)
-//			->addOption(
-//				'include',
-//				null,
-//				InputOption::VALUE_OPTIONAL,
-//				'Only generate the files specified from the blueprint'
-//			)
-//			->addOption(
-//				'exclude',
-//				null,
-//				InputOption::VALUE_OPTIONAL,
-//				'Generate all files from the blueprint except those excluded'
-//			)
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return mixed
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
@@ -93,11 +55,16 @@ class GenerateCommand extends Command
         }
 
         // Create the package
-        $this->packageGenerator->createPackage($vendor, $package, $data);
+        $this->builder->createPackage($vendor, $package, $data);
 
         return $output->writeln('<info>Package generated successfully!</info>');
-
     }
 
-
+    /**
+     * @return Base
+     */
+    protected function getBuilder()
+    {
+        return new Package(__DIR__ . '/../../templates');
+    }
 }

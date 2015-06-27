@@ -1,6 +1,6 @@
 <?php
 
-namespace Bmartel\Workshop\Builders;
+namespace Bmartel\Workshop\Support;
 
 class InputData
 {

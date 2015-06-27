@@ -52,7 +52,7 @@ class Package extends Base
 
         $dirPath = rtrim($this->outputPath . '/' . ltrim($dir, '/'), '/');
 
-        $this->makeDirectory($dir);
+        parent::makeDirectory($dir);
 
         // Directory was created
         if ($this->filesystem->exists($dirPath)) {

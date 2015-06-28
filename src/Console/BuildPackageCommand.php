@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
-class GeneratePackageCommand extends Command
+class BuildPackageCommand extends Command
 {
 
     protected function configure()
@@ -63,6 +63,6 @@ class GeneratePackageCommand extends Command
      */
     protected function getBuilder()
     {
-        return new Package(__DIR__ . '/../../templates');
+        return new Package(__DIR__ . '/../../templates/package');
     }
 }

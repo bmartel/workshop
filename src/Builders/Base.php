@@ -10,6 +10,11 @@ abstract class Base
 {
 
     /**
+     * @var bool
+     */
+    protected $pluralizeNamespace = true;
+
+    /**
      * @var array
      */
     protected $replacements = [];
@@ -88,7 +93,7 @@ abstract class Base
 
         } // Otherwise use the given generator type to namespace the resource
         else {
-            $resourceType = Str::plural($this->builderType);
+            $resourceType = $this->pluralizeNamespace ? Str::plural($this->builderType) : $this->builderType;
             $namespace = $rootNamespace . '\\' . $resourceType;
             $path = $rootPath . '/' . $resourceType;
         }

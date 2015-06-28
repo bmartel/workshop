@@ -12,8 +12,10 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 $application = new Symfony\Component\Console\Application('Laravel Workshop', '1.0.6');
 
-$application->add(new \Bmartel\Workshop\Console\GeneratePackageCommand);
-$application->add(new \Bmartel\Workshop\Console\GenerateMigrationCommand);
-$application->add(new \Bmartel\Workshop\Console\GenerateModelCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildPackageCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildConsoleCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildControllerCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildMigrationCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildModelCommand);
 
 $application->run();

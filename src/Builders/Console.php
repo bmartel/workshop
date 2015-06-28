@@ -4,6 +4,8 @@
 class Console extends Base
 {
 
+    protected $pluralizeNamespace = false;
+
     protected $builderType = 'Console';
 
     /**

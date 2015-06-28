@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
-class GenerateMigrationCommand extends Command
+class BuildMigrationCommand extends Command
 {
 
     protected function configure()
@@ -17,7 +17,7 @@ class GenerateMigrationCommand extends Command
         $this
             ->setName('build:migration')
             ->setAliases(['make:migration'])
-            ->setDescription('Generate a Laravel Migration')
+            ->setDescription('Generate a Laravel Database Migration')
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,

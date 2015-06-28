@@ -79,7 +79,7 @@ class Migration extends Base
      * @param $data
      * @return mixed
      */
-    protected function populateTemplate($template, $data)
+    protected function populateTemplate($template, $data = [])
     {
 
         $template = str_replace('DummyClass', $this->getClassName($data['name']), $template);

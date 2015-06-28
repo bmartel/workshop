@@ -10,6 +10,11 @@ abstract class Base
 {
 
     /**
+     * @var array
+     */
+    protected $replacements = [];
+
+    /**
      * @var string
      */
     protected $builderType = '';
@@ -26,21 +31,37 @@ abstract class Base
     }
 
     /**
-     * Get the path to the template.
-     *
-     * @return string
-     */
-    public function getTemplatePath()
-    {
-        return __DIR__ . '/../../templates';
-    }
-
-    /**
      * @return bool
      */
     public function isNotPackageRoot()
     {
         return !$this->filesystem->exists('composer.json');
+    }
+
+    /**
+     * @param $name
+     * @param $path
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function create($name, $path = '', $data = [])
+    {
+        list($namespace, $filepath) = $this->getNamespaceAndPathForType($name);
+
+        $path = explode('/', $filepath);
+        $class = array_pop($path);
+        $path = implode('/', $path);
+
+        $this
+            ->addReplacement('DummyNamespace', $namespace)
+            ->addReplacement('DummyClass', $class);
+
+        $this->makeDirectory($path);
+
+        $template = $this->loadTemplate($name, $data);
+
+        $this->buildFromTemplate($template, $filepath, $data);
     }
 
     /**
@@ -132,68 +153,6 @@ abstract class Base
     }
 
     /**
-     * @param $name
-     * @param $path
-     * @param array $data
-     *
-     * @return mixed
-     */
-    public function create($name, $path = '', $data = [])
-    {
-        list($namespace, $filepath) = $this->getNamespaceAndPathForType($name);
-
-        $path = explode('/', $filepath);
-        $class = array_pop($path);
-        $path = implode('/', $path);
-
-        $data['replacements'] = [
-            'DummyNamespace' => $namespace,
-            'DummyClass' => $class
-        ];
-
-        $this->makeDirectory($path);
-
-        $template = $this->loadTemplate($name, $data);
-
-        $this->buildFromTemplate($template, $filepath, $data);
-    }
-
-    /**
-     * Get the class name of a file name.
-     *
-     * @param  string $name
-     * @return string
-     */
-    protected function getClassName($name)
-    {
-        return Str::studly($name);
-    }
-
-    /**
-     * @param $name
-     * @param array $data
-     * @return string
-     */
-    abstract protected function getTemplate($name, $data = []);
-
-    /**
-     * @param $name
-     * @param array $data
-     * @return string
-     * @throws FileNotFoundException
-     */
-    public function loadTemplate($name, $data = []) {
-
-        $template = $this->getTemplatePath() . '/' . $this->getTemplate($name, $data);
-
-        if(file_exists($template)) {
-            throw new FileNotFoundException("Template $name was not found. Check to ensure the path is correct and the file exists.");
-        }
-
-        return file_get_contents($template);
-    }
-
-    /**
      * @param $path
      */
     protected function makeDirectory($path)
@@ -204,6 +163,41 @@ abstract class Base
             $this->filesystem->mkdir($path);
         }
     }
+
+    /**
+     * @param $name
+     * @param array $data
+     * @return string
+     * @throws FileNotFoundException
+     */
+    public function loadTemplate($name, $data = [])
+    {
+
+        $template = $this->getTemplatePath() . '/' . $this->getTemplate($name, $data);
+
+        if (file_exists($template)) {
+            throw new FileNotFoundException("Template $name was not found. Check to ensure the path is correct and the file exists.");
+        }
+
+        return file_get_contents($template);
+    }
+
+    /**
+     * Get the path to the template.
+     *
+     * @return string
+     */
+    public function getTemplatePath()
+    {
+        return __DIR__ . '/../../templates';
+    }
+
+    /**
+     * @param $name
+     * @param array $data
+     * @return string
+     */
+    abstract protected function getTemplate($name, $data = []);
 
     /**
      * @param $template
@@ -219,18 +213,53 @@ abstract class Base
 
     /**
      * @param $template
-     * @param $data
+     * @param array $data
      * @return string
      */
-    protected function populateTemplate($template, $data)
+    protected function populateTemplate($template, $data = [])
     {
-        if(!empty($data['replacements'])) {
-            foreach ($data['replacements'] as $placeholder => $replacement) {
-                $template = str_replace($placeholder, $replacement, $template);
-            }
+        $templateReplacements = array_merge($this->getTemplateReplacements(), $this->replacements);
+
+        foreach ($templateReplacements as $placeholder => $replacement) {
+            $template = str_replace($placeholder, $replacement, $template);
         }
 
         return $template;
+    }
+
+    /**
+     * Return an array of [placeholder => replacement]
+     * that will be used to populate the template.
+     *
+     * @return array
+     */
+    protected function getTemplateReplacements()
+    {
+        return [];
+    }
+
+    /**
+     * @param $placeholder
+     * @param $replacement
+     * @return $this
+     */
+    public function addReplacement($placeholder, $replacement)
+    {
+
+        $this->replacements[$placeholder] = $replacement;
+
+        return $this;
+    }
+
+    /**
+     * Get the class name of a file name.
+     *
+     * @param  string $name
+     * @return string
+     */
+    protected function getClassName($name)
+    {
+        return Str::studly($name);
     }
 
 }

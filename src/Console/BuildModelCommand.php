@@ -27,7 +27,7 @@ class BuildModelCommand extends Command
         $this
             ->setName('build:model')
             ->setAliases(['make:model'])
-            ->setDescription('Generate an Eloquent Model')
+            ->setDescription('Generate an Eloquent model')
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,

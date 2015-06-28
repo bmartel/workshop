@@ -1,23 +1,23 @@
 <?php namespace Bmartel\Workshop\Console;
 
 use Bmartel\Workshop\Builders\Base;
-use Bmartel\Workshop\Builders\Controller;
+use Bmartel\Workshop\Builders\Middleware;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
-class BuildControllerCommand extends Command
+class BuildMiddlewareCommand extends Command
 {
 
     protected function configure()
     {
 
         $this
-            ->setName('build:controller')
-            ->setAliases(['make:controller'])
-            ->setDescription('Generate a controller class')
+            ->setName('build:middleware')
+            ->setAliases(['make:middleware'])
+            ->setDescription('Generate a middleware class')
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
@@ -44,10 +44,8 @@ class BuildControllerCommand extends Command
 
             $name = $input->getArgument('name');
 
-            $plain = $input->getOption('plain');
-
-            $controllerFile = $this->builder->create($name, null, compact('plain'));
-            $output->writeln("<info>Created Controller:</info> $controllerFile");
+            $middlewareFile = $this->builder->create($name);
+            $output->writeln("<info>Created Middleware:</info> $middlewareFile");
         }
 
     }
@@ -57,6 +55,6 @@ class BuildControllerCommand extends Command
      */
     protected function getBuilder()
     {
-        return new Controller();
+        return new Middleware();
     }
 }

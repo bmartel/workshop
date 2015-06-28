@@ -13,7 +13,7 @@ class Model extends Base
      */
     protected function getTemplate($name, $data = [])
     {
-        return 'model/model.stub';
+        return 'model.stub';
     }
 
 }

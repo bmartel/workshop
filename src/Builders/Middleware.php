@@ -1,12 +1,10 @@
 <?php namespace Bmartel\Workshop\Builders;
 
 
-class Console extends Base
+class Middleware extends Base
 {
 
-    protected $pluralizeNamespace = false;
-
-    protected $builderType = 'Console';
+    protected $builderType = 'Middleware';
 
     /**
      * @param $name
@@ -15,6 +13,7 @@ class Console extends Base
      */
     protected function getTemplate($name, $data = [])
     {
-        return 'console.stub';
+        return 'middleware.stub';
     }
+
 }

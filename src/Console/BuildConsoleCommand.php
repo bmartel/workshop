@@ -19,7 +19,7 @@ class BuildConsoleCommand extends Command
         $this
             ->setName('build:console')
             ->setAliases(['make:console'])
-            ->setDescription('Generate an Artisan Command.')
+            ->setDescription('Generate an Artisan command')
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,

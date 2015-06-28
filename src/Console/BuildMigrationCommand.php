@@ -17,7 +17,7 @@ class BuildMigrationCommand extends Command
         $this
             ->setName('build:migration')
             ->setAliases(['make:migration'])
-            ->setDescription('Generate a Laravel Database Migration')
+            ->setDescription('Generate a database migration')
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,

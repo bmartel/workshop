@@ -1,9 +1,8 @@
-<?php
-
-namespace spec\Bmartel\Workshop\Builders;
+<?php namespace spec\Bmartel\Workshop\Builders;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+
 
 class MigrationSpec extends ObjectBehavior
 {

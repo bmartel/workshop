@@ -1,13 +1,11 @@
-<?php
-
-namespace Bmartel\Workshop\Builders;
-
+<?php namespace Bmartel\Workshop\Builders;
 
 use Bmartel\Workshop\Exceptions\InvalidBlueprintException;
 use Bmartel\Workshop\Support\Package as PackageSupport;
 use GitWrapper\GitWrapper;
 use Mustache_Engine;
 use Mustache_Loader_FilesystemLoader;
+
 
 class Package extends Base
 {
@@ -198,8 +196,9 @@ class Package extends Base
      * @param $vendor
      * @param $package
      * @param array $data
+     * @return mixed|void
      */
-    public function createPackage($vendor, $package, $data = [])
+    public function create($vendor, $package = '', $data = [])
     {
 
         // Load the blueprint
@@ -376,14 +375,12 @@ class Package extends Base
     }
 
     /**
-     * Get the full path name to the file.
-     *
-     * @param  string $name
-     * @param  string $path
+     * @param $name
+     * @param array $data
      * @return string
      */
-    protected function getPath($name, $path)
+    protected function getTemplate($name, $data = [])
     {
-        return $path;
+        return '';
     }
 }

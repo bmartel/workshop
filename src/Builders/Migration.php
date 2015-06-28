@@ -1,6 +1,4 @@
-<?php
-
-namespace Bmartel\Workshop\Builders;
+<?php namespace Bmartel\Workshop\Builders;
 
 
 class Migration extends Base
@@ -15,7 +13,7 @@ class Migration extends Base
      * @param  bool $create
      * @return string
      */
-    public function create($name, $path, $table = null, $create = false)
+    public function create($name, $path = '', $table = null, $create = false)
     {
         $this->makeDirectory($path);
 
@@ -24,9 +22,9 @@ class Migration extends Base
         // First we will get the template file for the migration, which serves as a type
         // of template for the migration. Once we have those we will populate the
         // various place-holders, and save the file.
-        $template = $this->getTemplate($table, $create);
+        $template = $this->getTemplate($table, compact('create'));
 
-        $this->filesystem->dumpFile($path, $this->populateTemplate($name, $template, $table));
+        $this->filesystem->dumpFile($path, $this->populateTemplate($template, compact('name') + compact('table')));
 
         return $path;
     }
@@ -38,9 +36,9 @@ class Migration extends Base
      * @param  string $path
      * @return string
      */
-    protected function getPath($name, $path)
+    protected function getPath($name, $path = '')
     {
-        return $path . '/' . $this->getDatePrefix() . '_' . $name . '.php';
+        return ($path ? "$path/" : '') . "{$this->getDatePrefix()}_$name.php";
     }
 
     /**
@@ -57,48 +55,37 @@ class Migration extends Base
      * Get the migration template file.
      *
      * @param  string $table
-     * @param  bool $create
+     * @param array $data
      * @return string
      */
-    protected function getTemplate($table, $create)
+    protected function getTemplate($table, $data = [])
     {
         if (is_null($table)) {
-            return file_get_contents($this->getTemplatePath() . '/blank.stub');
+            $template = 'blank.stub';
+        } else {
+            $template = empty($data['create']) ? 'update.stub' : 'create.stub';
         }
 
-        // We also have stubs for creating new tables and modifying existing tables
-        // to save the developer some typing when they are creating a new tables
-        // or modifying existing tables. We'll grab the appropriate stub here.
-        else {
-            $template = $create ? 'create.stub' : 'update.stub';
-
-            return file_get_contents($this->getTemplatePath() . "/{$template}");
-        }
+        return $template;
     }
 
     public function getTemplatePath()
     {
-        return parent::getTemplatePath() . '/builder/migration';
+        return parent::getTemplatePath() . '/migration';
     }
 
     /**
-     * Populate the place-holders in the migration stub.
-     *
-     * @param  string $name
-     * @param  string $template
-     * @param  string $table
-     * @return string
+     * @param $template
+     * @param $data
+     * @return mixed
      */
-    protected function populateTemplate($name, $template, $table)
+    protected function populateTemplate($template, $data)
     {
 
-        $template = str_replace('DummyClass', $this->getClassName($name), $template);
+        $template = str_replace('DummyClass', $this->getClassName($data['name']), $template);
 
-        // Here we will replace the table place-holders with the table specified by
-        // the developer, which is useful for quickly creating a tables creation
-        // or update migration from the console instead of typing it manually.
-        if (!is_null($table)) {
-            $template = str_replace('DummyTable', $table, $template);
+        if (!is_null($data['table'])) {
+            $template = str_replace('DummyTable', $data['table'], $template);
         }
 
         return $template;

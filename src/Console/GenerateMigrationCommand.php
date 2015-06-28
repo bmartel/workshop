@@ -1,6 +1,4 @@
-<?php
-
-namespace Bmartel\Workshop\Console;
+<?php namespace Bmartel\Workshop\Console;
 
 use Bmartel\Workshop\Builders\Base;
 use Bmartel\Workshop\Builders\Migration;
@@ -8,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
 
 class GenerateMigrationCommand extends Command
 {

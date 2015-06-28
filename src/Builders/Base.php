@@ -1,9 +1,10 @@
 <?php namespace Bmartel\Workshop\Builders;
 
-
 use Illuminate\Support\Str;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
 use UnexpectedValueException;
+
 
 abstract class Base
 {
@@ -42,28 +43,43 @@ abstract class Base
         return !$this->filesystem->exists('composer.json');
     }
 
-    public function getNamespaceAndPathForType($namespace = '')
+    /**
+     * @param string $namespace
+     * @return array
+     */
+    public function getNamespaceAndPathForType($namespace)
     {
         list($rootNamespace, $rootPath) = $this->getRootNamespaceAndPath();
 
+        $namespace = explode('\\', $namespace);
+        $class = array_pop($namespace) . '.php';
+
         // If there is an explicit namespace given, use it instead
-        if($namespace) {
-            if(!stristr($namespace, $rootNamespace)) {
+        if ($namespace) {
+
+            $namespace = implode('\\', $namespace);
+
+            if (!stristr($namespace, $rootNamespace)) {
                 throw new UnexpectedValueException('Must provide the full namespace path to the file.');
             }
 
             $path = $rootPath . '/' . trim(str_replace('\\', '/', str_replace($rootNamespace, '', $namespace)), '/');
-        }
 
-        // Otherwise use the given generator type
+        } // Otherwise use the given generator type
         else {
             $namespace = $rootNamespace . '\\' . $this->builderType;
             $path = $rootPath . '/' . $this->builderType;
         }
 
+        $path = "$path/$class";
+
         return [$namespace, $path];
     }
 
+    /**
+     * @param string $currentPath
+     * @return array|string
+     */
     public function getRootNamespaceAndPath($currentPath = '')
     {
 
@@ -77,6 +93,10 @@ abstract class Base
         return $path;
     }
 
+    /**
+     * @param $composerJson
+     * @return array|string
+     */
     private function getPsr4Path($composerJson)
     {
         if (!empty($composerJson['autoload']['psr-4'])) {
@@ -92,6 +112,10 @@ abstract class Base
         return '';
     }
 
+    /**
+     * @param $composerJson
+     * @return array
+     */
     private function getPsr0Path($composerJson)
     {
         if (!empty($composerJson['autoload']['psr-0'])) {
@@ -108,13 +132,31 @@ abstract class Base
     }
 
     /**
-     * Get the full path name to the file.
+     * @param $name
+     * @param $path
+     * @param array $data
      *
-     * @param  string $name
-     * @param  string $path
-     * @return string
+     * @return mixed
      */
-    abstract protected function getPath($name, $path);
+    public function create($name, $path = '', $data = [])
+    {
+        list($namespace, $filepath) = $this->getNamespaceAndPathForType($name);
+
+        $path = explode('/', $filepath);
+        $class = array_pop($path);
+        $path = implode('/', $path);
+
+        $data['replacements'] = [
+            'DummyNamespace' => $namespace,
+            'DummyClass' => $class
+        ];
+
+        $this->makeDirectory($path);
+
+        $template = $this->loadTemplate($name, $data);
+
+        $this->buildFromTemplate($template, $filepath, $data);
+    }
 
     /**
      * Get the class name of a file name.
@@ -127,6 +169,33 @@ abstract class Base
         return Str::studly($name);
     }
 
+    /**
+     * @param $name
+     * @param array $data
+     * @return string
+     */
+    abstract protected function getTemplate($name, $data = []);
+
+    /**
+     * @param $name
+     * @param array $data
+     * @return string
+     * @throws FileNotFoundException
+     */
+    public function loadTemplate($name, $data = []) {
+
+        $template = $this->getTemplatePath() . '/' . $this->getTemplate($name, $data);
+
+        if(file_exists($template)) {
+            throw new FileNotFoundException("Template $name was not found. Check to ensure the path is correct and the file exists.");
+        }
+
+        return file_get_contents($template);
+    }
+
+    /**
+     * @param $path
+     */
     protected function makeDirectory($path)
     {
         // Create directory if it is not found
@@ -134,6 +203,34 @@ abstract class Base
 
             $this->filesystem->mkdir($path);
         }
+    }
+
+    /**
+     * @param $template
+     * @param $path
+     * @param array $data
+     */
+    protected function buildFromTemplate($template, $path, $data = [])
+    {
+        $template = $this->populateTemplate($template, $data);
+
+        $this->filesystem->dumpFile($path, $template);
+    }
+
+    /**
+     * @param $template
+     * @param $data
+     * @return string
+     */
+    protected function populateTemplate($template, $data)
+    {
+        if(!empty($data['replacements'])) {
+            foreach ($data['replacements'] as $placeholder => $replacement) {
+                $template = str_replace($placeholder, $replacement, $template);
+            }
+        }
+
+        return $template;
     }
 
 }

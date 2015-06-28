@@ -1,11 +1,10 @@
-<?php
-
-namespace spec\Bmartel\Workshop\Builders;
+<?php namespace spec\Bmartel\Workshop\Builders;
 
 use PhpSpec\Exception\Example\FailureException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Filesystem\Filesystem;
+
 
 class PackageSpec extends ObjectBehavior
 {

@@ -1,11 +1,9 @@
-<?php
-
-namespace Bmartel\Workshop\Support;
-
+<?php namespace Bmartel\Workshop\Support;
 
 use Bmartel\Workshop\Exceptions\InvalidBlueprintException;
 use Closure;
 use Symfony\Component\Filesystem\Filesystem;
+
 
 class Package
 {

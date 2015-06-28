@@ -1,9 +1,8 @@
-<?php
-
-namespace spec\Bmartel\Workshop\Support;
+<?php namespace spec\Bmartel\Workshop\Support;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+
 
 class PackageSpec extends ObjectBehavior
 {

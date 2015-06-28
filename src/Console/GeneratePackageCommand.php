@@ -1,6 +1,4 @@
-<?php
-
-namespace Bmartel\Workshop\Console;
+<?php namespace Bmartel\Workshop\Console;
 
 use Bmartel\Workshop\Builders\Package;
 use Bmartel\Workshop\Support\InputData;
@@ -8,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
 
 class GeneratePackageCommand extends Command
 {
@@ -28,8 +27,7 @@ class GeneratePackageCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Template and file replacement data'
-            )
-        ;
+            );
     }
 
     /**
@@ -55,7 +53,7 @@ class GeneratePackageCommand extends Command
         }
 
         // Create the package
-        $this->builder->createPackage($vendor, $package, $data);
+        $this->builder->create($vendor, $package, $data);
 
         return $output->writeln('<info>Package generated successfully!</info>');
     }

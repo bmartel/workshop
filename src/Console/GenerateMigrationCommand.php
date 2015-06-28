@@ -15,8 +15,8 @@ class GenerateMigrationCommand extends Command
     {
 
         $this
-            ->setName('generate:migration')
-            ->setAliases(['g:migration'])
+            ->setName('build:migration')
+            ->setAliases(['make:migration'])
             ->setDescription('Generate a Laravel Migration')
             ->addArgument(
                 'name',
@@ -46,7 +46,7 @@ class GenerateMigrationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        if(parent::execute($input, $output)) {
+        if (parent::execute($input, $output)) {
 
             $name = $input->getArgument('name');
 
@@ -58,36 +58,11 @@ class GenerateMigrationCommand extends Command
                 $table = $create;
             }
 
-            $file = $this->writeMigration($name, $table, $create);
+            $file = pathinfo($this->builder->create($name, 'migrations', $table, $create), PATHINFO_FILENAME);
 
             return $output->writeln("<info>Created Migration:</info> $file");
         }
 
-    }
-
-    /**
-     * Write the migration file to disk.
-     *
-     * @param  string  $name
-     * @param  string  $table
-     * @param  bool    $create
-     * @return string
-     */
-    protected function writeMigration($name, $table, $create)
-    {
-        $path = $this->getMigrationPath();
-
-        return pathinfo($this->builder->create($name, $path, $table, $create), PATHINFO_FILENAME);
-    }
-
-    /**
-     * Get the path to the migration directory.
-     *
-     * @return string
-     */
-    protected function getMigrationPath()
-    {
-        return 'migrations';
     }
 
     /**

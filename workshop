@@ -14,5 +14,6 @@ $application = new Symfony\Component\Console\Application('Laravel Workshop', '1.
 
 $application->add(new \Bmartel\Workshop\Console\GeneratePackageCommand);
 $application->add(new \Bmartel\Workshop\Console\GenerateMigrationCommand);
+$application->add(new \Bmartel\Workshop\Console\GenerateModelCommand);
 
 $application->run();

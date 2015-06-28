@@ -22,7 +22,7 @@ class Migration extends Base
         // First we will get the template file for the migration, which serves as a type
         // of template for the migration. Once we have those we will populate the
         // various place-holders, and save the file.
-        $template = $this->getTemplate($table, compact('create'));
+        $template = $this->loadTemplate($table, compact('create'));
 
         $this->filesystem->dumpFile($path, $this->populateTemplate($template, compact('name') + compact('table')));
 

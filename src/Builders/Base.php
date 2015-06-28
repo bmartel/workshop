@@ -49,9 +49,7 @@ abstract class Base
     {
         list($namespace, $filepath) = $this->getNamespaceAndPathForType($name);
 
-        $path = explode('/', $filepath);
-        $class = array_pop($path);
-        $path = implode('/', $path);
+        list($path, $class) = $this->extractClassFromPath($filepath);
 
         $this
             ->addReplacement('DummyNamespace', $namespace)
@@ -62,6 +60,8 @@ abstract class Base
         $template = $this->loadTemplate($name, $data);
 
         $this->buildFromTemplate($template, $filepath, $data);
+
+        return $filepath;
     }
 
     /**
@@ -72,7 +72,7 @@ abstract class Base
     {
         list($rootNamespace, $rootPath) = $this->getRootNamespaceAndPath();
 
-        $namespace = explode('\\', $namespace);
+        $namespace = explode('\\', str_replace('/', '\\', $namespace));
         $class = array_pop($namespace) . '.php';
 
         // If there is an explicit namespace given, use it instead
@@ -86,10 +86,11 @@ abstract class Base
 
             $path = $rootPath . '/' . trim(str_replace('\\', '/', str_replace($rootNamespace, '', $namespace)), '/');
 
-        } // Otherwise use the given generator type
+        } // Otherwise use the given generator type to namespace the resource
         else {
-            $namespace = $rootNamespace . '\\' . $this->builderType;
-            $path = $rootPath . '/' . $this->builderType;
+            $resourceType = Str::plural($this->builderType);
+            $namespace = $rootNamespace . '\\' . $resourceType;
+            $path = $rootPath . '/' . $resourceType;
         }
 
         $path = "$path/$class";
@@ -153,6 +154,45 @@ abstract class Base
     }
 
     /**
+     * @param $filepath
+     * @return array
+     */
+    public function extractClassFromPath($filepath)
+    {
+        $path = explode('/', $filepath);
+        $class = str_replace('.php', '', array_pop($path));
+        $path = implode('/', $path);
+
+        return [$path, $class];
+    }
+
+    /**
+     * @param $namespace
+     * @return array
+     */
+    public function extractClassFromNamespace($namespace)
+    {
+        $namespace = explode('\\', str_replace('/' , '\\' ,$namespace));
+        $class = array_pop($namespace);
+        $namespace = implode('\\', $namespace);
+
+        return [$namespace, $class];
+    }
+
+    /**
+     * @param $placeholder
+     * @param $replacement
+     * @return $this
+     */
+    public function addReplacement($placeholder, $replacement)
+    {
+
+        $this->replacements[$placeholder] = $replacement;
+
+        return $this;
+    }
+
+    /**
      * @param $path
      */
     protected function makeDirectory($path)
@@ -172,15 +212,18 @@ abstract class Base
      */
     public function loadTemplate($name, $data = [])
     {
-
-        $template = $this->getTemplatePath() . '/' . $this->getTemplate($name, $data);
-
-        if (file_exists($template)) {
-            throw new FileNotFoundException("Template $name was not found. Check to ensure the path is correct and the file exists.");
-        }
+        $name = $this->getTemplate($name, $data);
+        $template = realpath($this->getTemplatePath() . '/' . $name);
 
         return file_get_contents($template);
     }
+
+    /**
+     * @param $name
+     * @param array $data
+     * @return string
+     */
+    abstract protected function getTemplate($name, $data = []);
 
     /**
      * Get the path to the template.
@@ -191,13 +234,6 @@ abstract class Base
     {
         return __DIR__ . '/../../templates';
     }
-
-    /**
-     * @param $name
-     * @param array $data
-     * @return string
-     */
-    abstract protected function getTemplate($name, $data = []);
 
     /**
      * @param $template
@@ -236,19 +272,6 @@ abstract class Base
     protected function getTemplateReplacements()
     {
         return [];
-    }
-
-    /**
-     * @param $placeholder
-     * @param $replacement
-     * @return $this
-     */
-    public function addReplacement($placeholder, $replacement)
-    {
-
-        $this->replacements[$placeholder] = $replacement;
-
-        return $this;
     }
 
     /**

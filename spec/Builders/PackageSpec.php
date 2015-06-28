@@ -12,7 +12,7 @@ class PackageSpec extends ObjectBehavior
     function let()
     {
 
-        $this->beConstructedWith(__DIR__ . '/../../templates');
+        $this->beConstructedWith(__DIR__ . '/../../templates/package');
         $this->setOutputPath(__DIR__ . '/package-test');
     }
 

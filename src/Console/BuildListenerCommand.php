@@ -55,8 +55,8 @@ class BuildListenerCommand extends Command
         if (parent::execute($input, $output)) {
 
             $name = $input->getArgument('name');
-            list($eventNamespace, $eventClass) = $this->event->getNamespaceAndPathForType($input->getOption('event'));
             $queued = $input->getOption('queued');
+            list($eventClass, $eventNamespace) = $this->event->getClassAndFullNamespace($input->getOption('event'));
 
             $listenerFile = $this->builder
                 ->addReplacement('DummyEvent', $eventClass)

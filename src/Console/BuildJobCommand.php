@@ -42,7 +42,7 @@ class BuildJobCommand extends Command
         if (parent::execute($input, $output)) {
 
             $name = $input->getArgument('name');
-            $queued = $input->getArgument('queued');
+            $queued = $input->getOption('queued');
 
             $jobFile = $this->builder->create($name, null, compact('queued'));
 

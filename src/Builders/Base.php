@@ -103,6 +103,21 @@ abstract class Base
     }
 
     /**
+     * @param $name
+     * @return array
+     */
+    public function getClassAndFullNamespace($name)
+    {
+
+        list($namespace, $path) = $this->getNamespaceAndPathForType($name);
+        list($path, $class) = $this->extractClassFromPath($path);
+
+        $fullNamespace = "$namespace\\$class";
+
+        return [$class, $fullNamespace];
+    }
+
+    /**
      * @param string $currentPath
      * @return array|string
      */

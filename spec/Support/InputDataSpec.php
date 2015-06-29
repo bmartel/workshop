@@ -1,18 +1,18 @@
-<?php
-
-namespace spec\Bmartel\Workshop\Builders;
+<?php namespace spec\Bmartel\Workshop\Support;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+
 
 class InputDataSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Bmartel\Workshop\Builders\InputData');
+        $this->shouldHaveType('Bmartel\Workshop\Support\InputData');
     }
 
-    function it_can_parse_data_from_a_string_and_map_to_an_array() {
+    function it_can_parse_data_from_a_string_and_map_to_an_array()
+    {
 
         $this->parse('')->shouldReturn([]);
 

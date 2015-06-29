@@ -2,19 +2,19 @@
 
 return [
 
-	'config' => '{{package}}.php',
+    'config' => '{{package}}.php',
 
-	'migrations' => '.gitkeep',
+    'migrations' => '.gitkeep',
 
-	'lang/en' => '.gitkeep',
+    'lang/en' => '.gitkeep',
 
-	'views' => '.gitkeep',
+    'views' => '.gitkeep',
 
-	'src' => 'ServiceProvider.php',
+    'src' => 'ServiceProvider.php',
 
-	'/' => [
-		'composer.json',
-		'README.md',
-		'LICENSE'
-	]
+    '/' => [
+        'composer.json',
+        'README.md',
+        'LICENSE'
+    ]
 ];

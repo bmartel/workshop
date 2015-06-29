@@ -1,7 +1,7 @@
-<?php
-namespace Bmartel\Workshop\Exceptions;
+<?php namespace Bmartel\Workshop\Exceptions;
 
 
-class InvalidBlueprintException extends \Exception {
+class InvalidBlueprintException extends \Exception
+{
 
 }

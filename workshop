@@ -10,8 +10,17 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 	require __DIR__ . '/../../autoload.php';
 }
 
-$application = new Symfony\Component\Console\Application('Laravel Workshop', '0.0.1');
+$application = new Symfony\Component\Console\Application('Laravel Workshop', '1.0.6');
 
-$application->add(new \Bmartel\Workshop\Console\GenerateCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildPackageCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildConsoleCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildControllerCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildEventCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildJobCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildListenerCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildMiddlewareCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildMigrationCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildModelCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildRequestCommand);
 
 $application->run();

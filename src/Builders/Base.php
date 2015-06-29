@@ -93,8 +93,7 @@ abstract class Base
 
         } // Otherwise use the given generator type to namespace the resource
         else {
-            $resourceType = $this->pluralizeNamespace ? Str::plural($this->builderType) : $this->builderType;
-            $namespace = $rootNamespace . '\\' . $resourceType;
+            list($resourceType, $namespace) = $this->getResourceNamespace($rootNamespace);
             $path = $rootPath . '/' . $resourceType;
         }
 
@@ -288,6 +287,18 @@ abstract class Base
     protected function getClassName($name)
     {
         return Str::studly($name);
+    }
+
+    /**
+     * @param $rootNamespace
+     * @return array
+     */
+    protected function getResourceNamespace($rootNamespace)
+    {
+        $resourceType = $this->pluralizeNamespace ? Str::plural($this->builderType) : $this->builderType;
+        $namespace = $rootNamespace . '\\' . $resourceType;
+
+        return [$resourceType, $namespace];
     }
 
 }

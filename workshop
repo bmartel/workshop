@@ -16,9 +16,11 @@ $application->add(new \Bmartel\Workshop\Console\BuildPackageCommand);
 $application->add(new \Bmartel\Workshop\Console\BuildConsoleCommand);
 $application->add(new \Bmartel\Workshop\Console\BuildControllerCommand);
 $application->add(new \Bmartel\Workshop\Console\BuildEventCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildJobCommand);
 $application->add(new \Bmartel\Workshop\Console\BuildListenerCommand);
 $application->add(new \Bmartel\Workshop\Console\BuildMiddlewareCommand);
 $application->add(new \Bmartel\Workshop\Console\BuildMigrationCommand);
 $application->add(new \Bmartel\Workshop\Console\BuildModelCommand);
+$application->add(new \Bmartel\Workshop\Console\BuildRequestCommand);
 
 $application->run();

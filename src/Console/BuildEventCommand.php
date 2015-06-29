@@ -1,33 +1,26 @@
 <?php namespace Bmartel\Workshop\Console;
 
 use Bmartel\Workshop\Builders\Base;
-use Bmartel\Workshop\Builders\Middleware;
+use Bmartel\Workshop\Builders\Event;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
-class BuildMiddlewareCommand extends Command
+class BuildEventCommand extends Command
 {
 
     protected function configure()
     {
 
         $this
-            ->setName('build:middleware')
-            ->setAliases(['make:middleware'])
-            ->setDescription('Generate a middleware class')
+            ->setName('build:event')
+            ->setAliases(['make:event'])
+            ->setDescription('Generate an event class')
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,
                 'The name of the class.'
-            )
-            ->addOption(
-                'plain',
-                null,
-                InputOption::VALUE_NONE,
-                'Create a plain controller.'
             );
     }
 
@@ -43,8 +36,8 @@ class BuildMiddlewareCommand extends Command
 
             $name = $input->getArgument('name');
 
-            $middlewareFile = $this->builder->create($name);
-            $output->writeln("<info>Created Middleware:</info> $middlewareFile");
+            $eventFile = $this->builder->create($name);
+            $output->writeln("<info>Created Event:</info> $eventFile");
         }
 
     }
@@ -54,6 +47,6 @@ class BuildMiddlewareCommand extends Command
      */
     protected function getBuilder()
     {
-        return new Middleware();
+        return new Event();
     }
 }

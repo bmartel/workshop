@@ -6,7 +6,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
-abstract class Command extends SymphonyCommand {
+abstract class Command extends SymphonyCommand
+{
 
     /**
      * @var Base
@@ -30,9 +31,10 @@ abstract class Command extends SymphonyCommand {
      * @param OutputInterface $output
      * @return bool
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
 
-        if($isNotPackage = $this->builder->isNotPackageRoot()) {
+        if ($isNotPackage = $this->builder->isNotPackageRoot()) {
             $output->writeln("<error>Cannot generate file. Generator commands must be run from the root of a composer package.</error>");
         }
 

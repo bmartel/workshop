@@ -28,8 +28,7 @@ class BuildControllerCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'Create a plain controller.'
-            )
-        ;
+            );
     }
 
     /**
@@ -40,7 +39,7 @@ class BuildControllerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        if(parent::execute($input, $output)) {
+        if (parent::execute($input, $output)) {
 
             $name = $input->getArgument('name');
 

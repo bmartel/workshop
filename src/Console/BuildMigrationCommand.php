@@ -34,8 +34,7 @@ class BuildMigrationCommand extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The table to migrate.'
-            )
-        ;
+            );
     }
 
     /**

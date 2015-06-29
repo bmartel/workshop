@@ -38,8 +38,7 @@ class BuildModelCommand extends Command
                 null,
                 InputOption::VALUE_NONE,
                 'Create a new migration file for the model.'
-            )
-        ;
+            );
     }
 
     /**
@@ -50,7 +49,7 @@ class BuildModelCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        if(parent::execute($input, $output)) {
+        if (parent::execute($input, $output)) {
 
             $name = $input->getArgument('name');
 
@@ -59,7 +58,7 @@ class BuildModelCommand extends Command
             $modelFile = $this->builder->create($name);
             $output->writeln("<info>Created Model:</info> $modelFile");
 
-            if($migration) {
+            if ($migration) {
                 list($namespace, $class) = $this->migration->extractClassFromNamespace($name);
 
                 $table = Str::plural(Str::snake($class));

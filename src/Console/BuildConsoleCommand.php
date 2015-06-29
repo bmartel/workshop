@@ -31,8 +31,7 @@ class BuildConsoleCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'The terminal command that should be assigned.',
                 'command:name'
-            )
-        ;
+            );
     }
 
     /**
@@ -43,7 +42,7 @@ class BuildConsoleCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        if(parent::execute($input, $output)) {
+        if (parent::execute($input, $output)) {
 
             $name = $input->getArgument('name');
 
@@ -53,7 +52,7 @@ class BuildConsoleCommand extends Command
                 ->addReplacement('dummy:command', $command)
                 ->create($name);
 
-            $output->writeln("<info>Created Controller:</info> $consoleFile");
+            $output->writeln("<info>Created Artisan Command:</info> $consoleFile");
         }
 
     }

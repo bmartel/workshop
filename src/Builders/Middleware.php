@@ -4,6 +4,8 @@
 class Middleware extends Base
 {
 
+    protected $pluralizeNamespace = false;
+
     protected $builderType = 'Middleware';
 
     /**

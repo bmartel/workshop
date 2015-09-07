@@ -35,6 +35,7 @@ class PackageSpec extends ObjectBehavior
             'migrations' => '.gitkeep',
             'lang/en' => '.gitkeep',
             'views' => '.gitkeep',
+            'public' => '.gitkeep',
             'src' => 'ServiceProvider.php',
             '/' => [
                 0 => 'composer.json',

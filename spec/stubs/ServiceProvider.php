@@ -1,4 +1,4 @@
-<?php namespace Acme\Packagename;
+<?php namespace Acme\Test;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
@@ -24,6 +24,7 @@ class ServiceProvider extends LaravelServiceProvider
         $this->handleConfigs();
         // $this->handleMigrations();
         // $this->handleViews();
+        // $this->handleAssets();
         // $this->handleTranslations();
         // $this->handleRoutes();
     }
@@ -54,29 +55,35 @@ class ServiceProvider extends LaravelServiceProvider
     private function handleConfigs()
     {
 
-        $configPath = __DIR__ . '/../config/packagename.php';
-        $this->publishes([$configPath => config_path('packagename.php')]);
-        $this->mergeConfigFrom($configPath, 'packagename');
+        $configPath = __DIR__ . '/../config/test.php';
+        $this->publishes([$configPath => config_path('test.php')], 'config');
+        $this->mergeConfigFrom($configPath, 'test');
     }
 
     private function handleTranslations()
     {
 
-        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'packagename');
-        $this->publishes([__DIR__ . '/../lang' => base_path('resources/lang/vendor/packagename')]);
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'test');
+        $this->publishes([__DIR__ . '/../lang' => base_path('resources/lang/vendor/test')], 'translation');
     }
 
     private function handleViews()
     {
 
-        $this->loadViewsFrom(__DIR__ . '/../views', 'packagename');
-        $this->publishes([__DIR__ . '/../views' => base_path('resources/views/vendor/packagename')]);
+        $this->loadViewsFrom(__DIR__ . '/../views', 'test');
+        $this->publishes([__DIR__ . '/../views' => base_path('resources/views/vendor/test')], 'view');
     }
 
     private function handleMigrations()
     {
 
-        $this->publishes([__DIR__ . '/../migrations' => base_path('database/migrations')]);
+        $this->publishes([__DIR__ . '/../migrations' => base_path('database/migrations')], 'migration');
+    }
+
+    private function handleAssets()
+    {
+
+        $this->publishes([__DIR__.'/../public' => public_path('vendor/test')], 'public');
     }
 
     private function handleRoutes()

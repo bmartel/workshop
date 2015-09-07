@@ -65,6 +65,24 @@ class PackageSpec extends ObjectBehavior
         }
     }
 
+    function it_can_generate_a_service_provider_from_a_template_with_placeholders()
+    {
+
+        $this->generateFileFrom('filestubs/ServiceProvider.php', 'ServiceProvider', [
+            'Vendor' => 'Acme',
+            'Package' => 'Test',
+            'vendor' => 'acme',
+            'package' => 'test'
+        ])->shouldReturn(true);
+
+        $output = file_get_contents(__DIR__ . '/package-test/filestubs/ServiceProvider.php');
+        $expected = file_get_contents(__DIR__ . '/../stubs/ServiceProvider.php');
+
+        if ($output != $expected) {
+            throw new FailureException("The contents of the files are not the same");
+        }
+    }
+
     function it_attempts_to_find_a_matching_template_to_generate_a_file_from()
     {
 

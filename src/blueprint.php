@@ -47,6 +47,8 @@ return [
 
     'views' => '.gitkeep',
 
+    'public' => '.gitkeep',
+
     'src' => 'ServiceProvider.php',
 
     '/' => [
